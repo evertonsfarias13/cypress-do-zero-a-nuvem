@@ -68,27 +68,22 @@ describe("Central de Atendimento ao Cliente TAT", () => {
     cy.get(".error").should("be.visible");
   });
 
+  Cypress._.times(3, () => {
+    //repete o cenario 3x
+    it("envia formulário com sucesso usandoS um comando customizado", () => {
+      const data = {
+        //criando um objeto data com todos os dados a serem preenchidos
+        firstName: "Everton",
+        lastName: "Farias",
+        email: "everton_12@hotmail.com",
+        text: "teste.",
+      };
 
-  Cypress._.times(3,() => { //repete o cenario 3x
-     it("envia formulário com sucesso usandoS um comando customizado", () => {
+      cy.fillMandatoryFieldsAndSubmit(data); //iformando o data como parametro do comandoS
 
-    const data = {
-      //criando um objeto data com todos os dados a serem preenchidos
-      firstName: "Everton",
-      lastName: "Farias",
-      email: "everton_12@hotmail.com",
-      text: "teste.",
-    };
-
-    cy.fillMandatoryFieldsAndSubmit(data); //iformando o data como parametro do comandoS
-
-    cy.get(".success").should("be.visible");
+      cy.get(".success").should("be.visible");
+    });
   });
-
-
-  })
-
- 
 
   it("seleciona um produto (YouTube) por seu textob", () => {
     cy.get("#product").select("YouTube").should("have.value", "youtube");
@@ -126,29 +121,20 @@ describe("Central de Atendimento ao Cliente TAT", () => {
 
   it('seleciona um arquivo da pasta fixtures" ', () => {
     cy.get("#file-upload")
-    .selectFile('cypress/fixtures/example.json') //quando colaro caminho relativop a barra deve estar para direita
-    .should( input  => {
-      expect(input[0].files[0].name).to.equal('example.json')
-    // input deve retorna na primeira posição do array, na primeira posição do arquivo, com nome example.json
-    // da pra usar o console.log(input)antes para visualizar todo o campo input o que ele recebe
-    })
-
-  
-  })
-    it.only("faz uma requisição http",()  => {
-      cy.request('https://cac-tat-v3.s3.eu-central-1.amazonaws.com/index.html')
-      .as('getRequest')
-      .its('status')
-      .should('be.equal',200)
-      cy.get('@getRequest')
-      .its('statusText')
-      .should('be.equal','OK')
-      cy.get('@getRequest')
-      .its('body')
-      .should('include','CAC TAT')
-
-    })
-
-})
-
-
+      .selectFile("cypress/fixtures/example.json") //quando colaro caminho relativop a barra deve estar para direita
+      .should((input) => {
+        expect(input[0].files[0].name).to.equal("example.json");
+        // input deve retorna na primeira posição do array, na primeira posição do arquivo, com nome example.json
+        // da pra usar o console.log(input)antes para visualizar todo o campo input o que ele recebe
+      });
+  });
+  it("faz uma requisição http", () => {
+    // realizando uma chamada , testando a api e validando status e body
+    cy.request("https://cac-tat-v3.s3.eu-central-1.amazonaws.com/index.html")
+      .as("getRequest")
+      .its("status")
+      .should("be.equal", 200);
+    cy.get("@getRequest").its("statusText").should("be.equal", "OK");
+    cy.get("@getRequest").its("body").should("include", "CAC TAT");
+  });
+});
