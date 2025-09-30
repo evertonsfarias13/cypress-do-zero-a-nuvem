@@ -69,7 +69,7 @@ describe("Central de Atendimento ao Cliente TAT", () => {
   });
 
 
-  Cypress._.times(3,() => {
+  Cypress._.times(3,() => { //repete o cenario 3x
      it("envia formulário com sucesso usandoS um comando customizado", () => {
 
     const data = {
@@ -135,6 +135,20 @@ describe("Central de Atendimento ao Cliente TAT", () => {
 
   
   })
+    it.only("faz uma requisição http",()  => {
+      cy.request('https://cac-tat-v3.s3.eu-central-1.amazonaws.com/index.html')
+      .as('getRequest')
+      .its('status')
+      .should('be.equal',200)
+      cy.get('@getRequest')
+      .its('statusText')
+      .should('be.equal','OK')
+      cy.get('@getRequest')
+      .its('body')
+      .should('include','CAC TAT')
+
+    })
+
 })
 
 
