@@ -68,7 +68,10 @@ describe("Central de Atendimento ao Cliente TAT", () => {
     cy.get(".error").should("be.visible");
   });
 
-  it("envia formulário com sucesso usandoS um comando customizado", () => {
+
+  Cypress._.times(3,() => {
+     it("envia formulário com sucesso usandoS um comando customizado", () => {
+
     const data = {
       //criando um objeto data com todos os dados a serem preenchidos
       firstName: "Everton",
@@ -81,6 +84,11 @@ describe("Central de Atendimento ao Cliente TAT", () => {
 
     cy.get(".success").should("be.visible");
   });
+
+
+  })
+
+ 
 
   it("seleciona um produto (YouTube) por seu textob", () => {
     cy.get("#product").select("YouTube").should("have.value", "youtube");
